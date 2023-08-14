@@ -30,7 +30,7 @@ class BattleGrid:
             }
     
     def __repr__(self):
-        grid = '  1 2 3 4 5 6 7 8 9 10\n' 
+        grid = '  0 1 2 3 4 5 6 7 8 9\n' 
         #print("  1 2 3 4 5 6 7 8 9 10")
         for key, values in self.battlegrid.items():
             grid += key+' '+' '.join(str(item) for item in values)+'\n'
@@ -41,6 +41,7 @@ class BattleGrid:
         if self.battlegrid[letter][number] == 1:
             print("There's another ship here!")
         self.battlegrid[letter][number] = 1
+        return self.battlegrid
         
 # Functions outside classes go here
 
@@ -49,16 +50,17 @@ def assign_ship(grid, ships):
         print("Where would you like to place the " + ship.name + " of length "+ str(ship.length) + "?")
         letter = input("Please enter a letter between A and J\n").upper()
         number = int(input("Please enter a number between 0 and 9\n"))
-        direction = input("Please type 0 for horizontal, or 1 for vertical\n")
-        
-        if direction == 0:
-            for i in ship.length:
-                grid.allocate_ship(letter, i)
-        elif direction == 1:
-            for i in ship.length:
-                grid.allocate_ship(chr(ord(letter)+i), number) #ord converts letter into ASCII, and chr converts ASCII into letter
-        else:
-            print("Error!")
+        direction = int(input("Please type 0 for horizontal, or 1 for vertical\n"))
+        i = 0
+        while i <= ship.length:
+            if direction == 0:
+                grid.allocate_ship(letter, number+i)
+            elif direction == 1:
+                #ord converts letter into ASCII, and chr converts ASCII into letter
+                grid.allocate_ship(chr(ord(letter)+i), number)
+            else:
+                print("Error!")
+            i += 1
 
         print(grid)
     print("All ships have been allocated to the grid!")
@@ -91,4 +93,6 @@ print("\nOne player needs to leave the room, so the other player can allocate th
 for i in grid:
     print("Player " + str(grid.index(i) + 1) + ", please assign your ships to the grid!\n")
     print(i)
+    print(type(i))
     newgrid = assign_ship(i, battleships)
+    print(newgrid)
