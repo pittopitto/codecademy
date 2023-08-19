@@ -42,6 +42,9 @@ class BattleGrid:
             print("There's another ship here!")
         self.battlegrid[letter][number] = 1
         return self.battlegrid
+    
+    def attack(self):
+        pass
         
 # Functions outside classes go here
 
@@ -52,7 +55,7 @@ def assign_ship(grid, ships):
         number = int(input("Please enter a number between 0 and 9\n"))
         direction = int(input("Please type 0 for horizontal, or 1 for vertical\n"))
         i = 0
-        while i <= ship.length:
+        while i < ship.length:
             if direction == 0:
                 grid.allocate_ship(letter, number+i)
             elif direction == 1:
@@ -94,5 +97,6 @@ for i in grid:
     print("Player " + str(grid.index(i) + 1) + ", please assign your ships to the grid!\n")
     print(i)
     print(type(i))
-    newgrid = assign_ship(i, battleships)
-    print(newgrid)
+    grid[i] = assign_ship(i, battleships)
+    print(type(grid[i]))
+    print(grid[i])
